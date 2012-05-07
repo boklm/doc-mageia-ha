@@ -1,0 +1,90 @@
+
+\newif\if@techreport
+
+\DeclareOption{techreport}
+{\@techreporttrue}
+\ProcessOptions
+%
+%
+\def\HUPTitle#1{\def\@HUPTitle{#1}}
+\def\HUPVersion#1{\def\@HUPVersion{#1}}
+\def\HUPLastEditor#1{\def\@HUPLastEditor{#1}}
+\def\HUPLastDate#1{\def\@HUPLastDate{#1}}
+\newcommand{\HUPRevision}[4]{\@writefile{rev}{\hline \hfil #1\hfil&#2&#3&#4\\}}
+
+\def\@HUPVersion{XXXX}
+\def\@HUPLastEditor{XXXX}
+\def\@HUPLastDate{XXXX}
+\def\@HUPRevision{}
+
+\def\@HUPTitleFont{\fontsize{30}{30}\usefont{T1}{ptm}{b}{n}\selectfont}
+\def\@HUPLarge{\fontsize{18}{21}\usefont{T1}{ptm}{m}{n}\selectfont}
+\def\@HUPSmall{\fontsize{9}{11}\usefont{T1}{ptm}{m}{n}\selectfont}
+\def\@HUPfont{\fontsize{12}{12}\usefont{T1}{ptm}{m}{n}\selectfont}
+\def\@HUPsc{\fontshape{sc}\selectfont}
+\def\@HUPemph{\fontshape{sl}\selectfont}
+\def\@HUPbold{\fontseries{b}\selectfont}
+
+
+\newdimen\HUP@CoverPageWidth
+\newdimen\HUP@CoverPageHeight
+\newdimen\HUP@TableWidth
+\HUP@CoverPageWidth=\paperwidth
+\HUP@CoverPageHeight=\paperheight
+\HUP@TableWidth=\paperwidth
+\advance\HUP@CoverPageWidth by -1.5in
+\advance\HUP@CoverPageHeight by -2in
+\advance\HUP@TableWidth by -5cm
+\newdimen\HUPTableWidth
+\HUPTableWidth=\HUP@TableWidth
+
+\newwrite\tf@rev
+\immediate\openout \tf@rev \jobname.rev\relax
+\@writefile{rev}{\fontsize{9}{11}\usefont{T1}{ptm}{m}{n}\selectfont}
+\@writefile{rev}{\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}|c|c|c|r|}}
+\@writefile{rev}{\multicolumn{4}{l}{{\fontseries{b}\selectfont Revision history:}}\\}
+\@writefile{rev}{\hline}
+\@writefile{rev}{{\fontseries{b}\selectfont Version}  &{\fontseries{b}\selectfont Date} &{\fontseries{b}\selectfont Author} &{\fontseries{b}\selectfont Comments} \\}
+
+
+\newcommand{\HUP@CoverBody}{
+\@HUPfont
+\parbox{\linewidth}{
+\includegraphics[width=7cm]{hupstream_logo.png}
+}
+\parbox{\linewidth}{\centering
+ \vspace{6cm}
+ \@HUPTitleFont \@HUPTitle
+}
+\vfill
+\parbox{\linewidth}{\centering
+ \vspace{5mm}
+ {Version \@HUPVersion\ / Last edited by \@HUPLastEditor\ / \@HUPLastDate}\par
+ \vspace{5mm}}
+}
+
+\newcommand{\HUP@PrintCoverPage}{\bgroup\global\setbox255\vbox{%
+ \@writefile{rev}{\hline \end{tabular*}}
+ \immediate\closeout\tf@rev
+ \vspace*{-.25in}%
+ \noindent\hspace*{-.25in}%
+ \rlap{
+  \begin{minipage}[t][\HUP@CoverPageHeight][t]{\HUP@CoverPageWidth}%
+   \HUP@CoverBody
+  \end{minipage}
+ }%
+}\egroup\shipout\box255}
+
+
+\newcommand{\HUP@PrintBackCoverPage}{\bgroup\global\setbox254\vbox{%
+ \vspace*{-.25in}%
+ \noindent\hspace*{-.25in}%
+ \rlap{\begin{minipage}[t][\HUP@CoverPageHeight][t]{\HUP@CoverPageWidth}%
+  \parbox{\linewidth}{
+  \input{\jobname.rev}
+  \end{minipage}}}%
+}\egroup\shipout\box254}
+
+
+
+\AtBeginDocument{\HUP@PrintCoverPage\HUP@PrintBackCoverPage}
