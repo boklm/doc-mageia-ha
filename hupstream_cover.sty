@@ -1,5 +1,6 @@
 
 \newif\if@techreport
+\newif\ifCCBYSA
 
 \DeclareOption{techreport}
 {\@techreporttrue}
@@ -10,6 +11,7 @@
 \def\HUPVersion#1{\def\@HUPVersion{#1}}
 \def\HUPLastEditor#1{\def\@HUPLastEditor{#1}}
 \def\HUPLastDate#1{\def\@HUPLastDate{#1}}
+\def\HUPCCBYSA{\CCBYSAtrue}
 \newcommand{\HUPRevision}[4]{\@writefile{rev}{\hline \hfil #1\hfil&#2&#3&#4\\}}
 
 \def\@HUPVersion{XXXX}
@@ -61,6 +63,11 @@
  \vspace{5mm}
  {Version \@HUPVersion\ / Last edited by \@HUPLastEditor\ / \@HUPLastDate}\par
  \vspace{5mm}}
+ \ifCCBYSA
+    \hfill \parbox{\linewidth}{
+       \hfill \includegraphics[width=3cm]{by-sa.png}
+    }
+ \fi
 }
 
 \newcommand{\HUP@PrintCoverPage}{\bgroup\global\setbox255\vbox{%
