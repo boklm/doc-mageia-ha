@@ -95,6 +95,33 @@ You can find more informations about \emph{Hupstream} on \url{http://www.hupstre
 \cleardoublepage
 \section{High Availability tools in Mageia}
 \subsection{DRBD}
+The \emph{Distributed Replicated Block Device (DRBD)} is a tool that
+allows mirroring of block devices between hosts, using the network. It
+allows to transparently mirror data in real time between different hosts.
+
+\emph{DRBD} is very useful to create a fail-over cluster, with one
+active node and one passive node. The data manipulated on the first
+node is mirrored to the second node using \emph{DRBD}. In case of
+failure on the first node, all the data is immediatly available on the
+second node which can become the new active node.
+
+\emph{DRBD} is implemented as a kernel module, and some user space tools.
+The \emph{DRBD} kernel module is included in the mainline kernel since
+version \emph{2.6.33}. In \emph{Mageia}, this module is included with
+the server kernel which can be installed using the
+\emph{kernel-server-latest} package.
+
+The user space administration tools can be installed with the \emph{drbd-utils}
+package. The utilities provided by this package are :
+\begin{description}
+\item[drbd-overview] to look at \emph{DRBD}'s status,
+\item[drbdadm] the high-level administration tool,
+\item[drbdsetup] the low lever setup tool,
+\item[drbdmeta] the meta data management tool.
+\end{description}
+
+You can find more information about \emph{DRBD} on \url{http://www.drbd.org/}.
+
 \subsection{CoroSync}
 \subsection{Pacemaker}
 
